@@ -95,7 +95,7 @@ test ('Reusing the locators', async({page}) => {
 
 })
 
-test ('Extracting Values ', async ({page}) =>{
+test ('Extracting Values', async ({page}) =>{
     //single test value
     const basicForm = page.locator('nb-card').filter({hasText: "Basic form"})
     const buttonText = await basicForm.locator('button').textContent()
@@ -115,4 +115,24 @@ test ('Extracting Values ', async ({page}) =>{
     const placeholderValue = await emailField.getAttribute('placeholder')
     expect(placeholderValue).toEqual('Email')
 
+})
+
+test('Assertions', async({page}) => {
+     const basicFormButton = page.locator('nb-card').filter({hasText: "Basic form"}).locator('button')
+
+    //General assertions
+    const value = 5
+    expect(value).toEqual(5)
+
+    const text = await basicFormButton.textContent()
+    expect(text).toEqual("Submit")
+
+    //Locator assertion - waits up to 5 seconds for the element to be available compared to general 
+    await expect(basicFormButton).toHaveText('Submit')
+
+    //Soft assertion - test will continue even if the assertion fails 
+    await expect.soft(basicFormButton).toHaveText('Submit5')
+
+    await basicFormButton.click()
+    console.log('clicked button')
 })
