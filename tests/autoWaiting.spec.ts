@@ -37,3 +37,5 @@ test('alternative waits', async({page}) => {
         expect(text).toContain('Data loaded with AJAX get request.')
 
 })
+
+//Test
