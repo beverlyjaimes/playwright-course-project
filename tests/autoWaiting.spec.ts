@@ -1,8 +1,9 @@
 import {test, expect} from '@playwright/test'
 
-test.beforeEach(async({page}) => {
+test.beforeEach(async({page}, testInfo) => {
     await page.goto('http://uitestingplayground.com/ajax')
     await page.getByText('Button triggering AJAX Request').click()
+    testInfo.setTimeout(testInfo.timeout + 2000)
 })
 
 test('auto waiting', async({page}) => {
@@ -38,4 +39,15 @@ test('alternative waits', async({page}) => {
 
 })
 
-//Test
+//Global Timeout -> Test Timeout -> Action Timeout, Navigation Timeout, Expect Timeout 
+
+test('timeouts', async ({page}) => {
+    // test.setTimeout(10000)
+    //increases default timeout 3x 
+    test.slow()
+    //run test in Test Explorer 
+    const successButton = page.locator('.bg-success')
+    await successButton.click({timeout: 16000})
+
+    // you can customize timeouts in playwright.config file 
+})
