@@ -3,6 +3,7 @@ import {test, expect} from '@playwright/test'
 test.beforeEach(async({page}, testInfo) => {
     await page.goto('http://uitestingplayground.com/ajax')
     await page.getByText('Button triggering AJAX Request').click()
+    //another option to override timeout 
     testInfo.setTimeout(testInfo.timeout + 2000)
 })
 
