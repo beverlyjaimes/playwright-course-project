@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { using } from 'rxjs'
+import { DialogComponent } from '../src/app/pages/modal-overlays/dialog/dialog.component'
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://playground.bondaracademy.com/')
@@ -100,6 +101,22 @@ test.describe('From Layouts page', () => {
 
        await page.getByRole('button', {name: 'Top'}).hover()
        await expect(page.getByRole('tooltip')).toHaveText('This is a tooltip')
+
+    })
+
+
+    test('dialog box', async ({page}) => {
+       await page.getByText('Tables & Data').click()
+       await page.getByText('Smart Table').click()
+
+       //event listener
+       page.on('dialog', dialog => {
+        expect(dialog.message()).toEqual('Are you sure you want to delete?')
+        dialog.accept()
+       })
+
+       await page.locator('tr', {hasText: 'mdo@gmail.com'}).locator('.nb-trash').click()
+       await expect(page.locator('tr', {hasText:'mdo@gmail.com'})).not.toBeVisible()
 
     })
 })
