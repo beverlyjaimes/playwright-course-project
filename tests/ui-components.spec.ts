@@ -136,12 +136,31 @@ test.describe('From Layouts page', () => {
 
         //element is not unique and need to find by column
         const tableRowByID = page.getByRole('row').filter({has: page.locator('td').nth(1).getByText('10')})
+        //will no longer work because text is no longer part of the HTML 
         await tableRowByID.locator('.nb-edit').click()
         await page.locator('tbody').getByPlaceholder('E-mail').fill('test@test.com')
         await page.locator('tbody').locator('.nb-checkmark').click()
         await expect(tableRowByID.locator('td').nth(5)).toHaveText('test@test.com')
 
+        //loop through table rows
+        const ages = ["20", "30", "40", "200"]
+        
+        for(let age of ages) {
+            await page.getByPlaceholder('Age').fill(age)
 
+            if(age == "200") {
+                await expect(page.locator('tbody')).toContainText('No data found')
+            } else {
+                //loop through each row and cell
+                await expect(page.locator('tbody tr').first().locator('td').last()).toHaveText(age)
+                const allTableRows = await page.locator('tbody tr').all()
+                for(let row of allTableRows) {
+                    await expect(row.locator('td').last()).toHaveText(age)
+                    //small delay creates an error
+
+                }
+            }
+        }
     })
 })
 
