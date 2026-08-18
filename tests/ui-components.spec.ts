@@ -119,5 +119,29 @@ test.describe('From Layouts page', () => {
        await expect(page.locator('tr', {hasText:'mdo@gmail.com'})).not.toBeVisible()
 
     })
+
+    test('web tables', async ({page}) => {
+        await page.getByText('Tables & Data').click()
+        await page.getByText('Smart Table').click()
+
+        //how to select row by any visible text
+        const tableRowByEmail = page.getByRole('row',{name: 'twitter@outlook.com'})
+        await tableRowByEmail.locator('.nb-edit').click()
+        await tableRowByEmail.getByPlaceholder('Age').fill('35')
+        await tableRowByEmail.getByPlaceholder('Username').fill('@tweeter')
+
+        await tableRowByEmail.locator('.nb-checkmark').click()
+        await expect(tableRowByEmail.locator('td').last()).toHaveText('35')
+        await expect(tableRowByEmail.locator('td').nth(4)).toHaveText('@tweeter')
+
+        //element is not unique and need to find by column
+        const tableRowByID = page.getByRole('row').filter({has: page.locator('td').nth(1).getByText('10')})
+        await tableRowByID.locator('.nb-edit').click()
+        await page.locator('tbody').getByPlaceholder('E-mail').fill('test@test.com')
+        await page.locator('tbody').locator('.nb-checkmark').click()
+        await expect(tableRowByID.locator('td').nth(5)).toHaveText('test@test.com')
+
+
+    })
 })
 
