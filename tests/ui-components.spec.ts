@@ -170,8 +170,32 @@ test.describe('From Layouts page', () => {
         const calendarInputField = page.getByPlaceholder('Form Picker')
         await calendarInputField.click()
 
-        await page.locator('.day-cell:not(.bounding-month)').getByText('2', {exact: true}).click()
-        await expect(calendarInputField).toHaveValue('Aug 2, 2026')
+        //prefered to use a dynamic date 
+        const date = new Date();
+        date.setDate(date.getDate() + 8)
+        const expectedDay = date.getDate().toString()
+        //formatting date
+        const expectedMonth = date.toLocaleString('En-US', {month: 'short'})
+        const expectedMonthLong = date.toLocaleString('En-US', {month: 'long'})
+        const expectedYear = date.getFullYear()
+        const expectedDate = `${expectedMonth} ${expectedDay}, ${expectedYear}`
+
+        //let vs const to allow value to change
+        let currentMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
+        const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`
+        
+        while(!currentMonthAndYear?.includes(expectedMonthAndYear)) {
+            await page.locator('.next-month').click()
+            currentMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
+        }
+
+
+
+        // await page.locator('.day-cell:not(.bounding-month)').getByText('2', {exact: true}).click()
+        // await expect(calendarInputField).toHaveValue('Aug 2, 2026')
+
+        await page.locator('.day-cell:not(.bounding-month)').getByText(expectedDay, {exact: true}).click()
+        await expect(calendarInputField).toHaveValue(expectedDate)
     })
 })
 
