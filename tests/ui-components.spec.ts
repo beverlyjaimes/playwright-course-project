@@ -183,7 +183,7 @@ test.describe('From Layouts page', () => {
         //let vs const to allow value to change
         let currentMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
         const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`
-        
+
         while(!currentMonthAndYear?.includes(expectedMonthAndYear)) {
             await page.locator('.next-month').click()
             currentMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
@@ -197,5 +197,38 @@ test.describe('From Layouts page', () => {
         await page.locator('.day-cell:not(.bounding-month)').getByText(expectedDay, {exact: true}).click()
         await expect(calendarInputField).toHaveValue(expectedDate)
     })
+
+    test('sliders', async ({page}) =>{
+        await page.getByText('IoT Dashboard').click()
+        //1 setting attribute values
+        // const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
+        // await tempGauge.evaluate(element =>{
+        //     element.setAttribute('cx', '232.17')
+        //     element.setAttribute('cy', '232.17')
+
+        // })
+
+        // //trigger event to apply changes
+        // await tempGauge.click()
+
+        //2 mouse movement 
+        const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger')
+        await tempBox.scrollIntoViewIfNeeded()
+
+        const box = await tempBox.boundingBox()
+        const x = box?.x + box?.width / 2
+        const y = box?.y + box?.height / 2
+
+        await page.mouse.move(x,y)
+        await page.mouse.down()
+        await page.mouse.move(x+100, y)
+        await page.mouse.move(x+100, y+100)
+        await page.mouse.up()
+
+        await expect(tempBox).toContainText('30')
+
+
+    })
+
 })
 
