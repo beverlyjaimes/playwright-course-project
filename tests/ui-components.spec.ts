@@ -239,5 +239,19 @@ test.describe('From Layouts page', () => {
         await frameLocator.getByRole('button', {name:'Open Dialog with esc close'}).click()
     })
 
+    test('Drag & drop', async ({page}) => {
+        await page.getByText('Extra Components').click()
+        await page.getByText('Drag & Drop').click()
+
+        //1
+        await page.getByText('Clean my room').dragTo(page.locator('#drop-list'))
+
+        //2 simulate mouse movement
+        await page.getByText('Get groceries').hover()
+        await page.mouse.down()
+        await page.locator('#drop-list').hover()
+        await page.mouse.up()
+        
+    })
 })
 
