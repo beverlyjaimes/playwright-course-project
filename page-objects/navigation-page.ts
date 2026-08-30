@@ -1,22 +1,28 @@
 import { Page } from "@playwright/test";
 import { step } from "../helpers/test-step-decorator";
-export class NavigationPage {
-    private readonly page: Page
+import { HelperBase } from "./helper-base";
+
+
+
+export class NavigationPage extends HelperBase{
 
     constructor(page: Page){
-        this.page = page
+        super(page)
     }
     @step
     async formLayoutsPage(){
         // await this.page.getByText('Forms').click()
         await this.selectGroupMenuItem('Forms')
-        await this.page.getByText('Form Layouts!').click()
+        await this.page.getByText('Form Layouts').click()
+        await this.getToastrMessage()
     }
 
     @step
     async datePickerPage(){
         await this.selectGroupMenuItem('Forms')
         await this.page.getByText('Datepicker').click()
+        const toastMsg = await this.getToastrMessage()
+        console.log(toastMsg)
     }
     @step
     async toasterPage(){
