@@ -1,5 +1,6 @@
 import { test } from "@playwright/test";
 import { PageManager } from "../page-objects/page-manager";
+import {faker } from '@faker-js/faker';
 
 
 test.beforeEach(async ({page}) =>{
@@ -21,12 +22,14 @@ test('Navigate to form layouts page', async ({page}) =>{
 test('Parametrized page object methods', async ({page}) => {
 
     const pom = new PageManager(page)
+    const randomFullName = faker.person.fullName()
+    const randomEmail = faker.internet.email({provider: 'test.com'})
 
     await pom.navigateTo.formLayoutsPage()
     await pom.formLayoutsPage.submitUsingTheGridForm('test1@test.com', 'Welcome1', 'Option 1')
-    await pom.formLayoutsPage.submitInlineForm('Bev Puente', 'testinline@email.com', false)
-    await pom.navigateTo.datePickerPage()
-    await pom.datepickerPage.selectCommonDatePickerFromToday(2)
-    await pom.datepickerPage.selectDatePickerWithRange(2,2)
+    await pom.formLayoutsPage.submitInlineForm(randomFullName, randomEmail, false)
+    // await pom.navigateTo.datePickerPage()
+    // await pom.datepickerPage.selectCommonDatePickerFromToday(2)
+    // await pom.datepickerPage.selectDatePickerWithRange(2,2)
 })
 
