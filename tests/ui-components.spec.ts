@@ -6,7 +6,9 @@ test.beforeEach(async ({ page }) => {
     await page.goto('https://playground.bondaracademy.com/')
 })
 
-test.describe('From Layouts page', () => {
+test.describe.only('From Layouts page', () => {
+    test.describe.configure({retries: 2})
+    //only this will retry twice 
 
     test.beforeEach(async ({ page }) => {
         await page.getByText('Forms').click()
@@ -14,7 +16,10 @@ test.describe('From Layouts page', () => {
     })
 
     
-    test('Input fields', async ({ page }) => {
+    test('Input fields', async ({ page }, testInfo ) => {
+        if( testInfo.retry) {
+            //clean test data 
+        }
         const usingTheGridEmailInput = page
             .locator('nb-card', { hasText: "Using the Grid" })
             .getByRole('textbox', {name: "Email"})
