@@ -8,7 +8,11 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve"
+    "start": "ng serve",
+    "po-test-chromium": "npx playwright test test-with-page-objects.spec.ts --project=chromium ",
+    "po-test-firefox": "npx playwright test test-with-page-objects.spec.ts --project=firefox ",
+    "po-test-all": "npm run po-test-chromium && npm run po-test-firefox"
+
   },
   "dependencies": {
     "@angular/animations": "^14.2.12",
