@@ -27,9 +27,20 @@ test('Parametrized page object methods', async ({page}) => {
 
     await pom.navigateTo.formLayoutsPage()
     await pom.formLayoutsPage.submitUsingTheGridForm('test1@test.com', 'Welcome1', 'Option 1')
+
+       //screenshot 
+    await page.screenshot({path: 'screenshots/formlayoutsPage.png'})
+    await page.waitForTimeout(3000)
+
+    const formLayoutPageBuffer = await page.screenshot()
+    // console.log(formLayoutPageBuffer.toString('base64'))
+
+
     await pom.formLayoutsPage.submitInlineForm(randomFullName, randomEmail, false)
-    // await pom.navigateTo.datePickerPage()
-    // await pom.datepickerPage.selectCommonDatePickerFromToday(2)
-    // await pom.datepickerPage.selectDatePickerWithRange(2,2)
+    await page.locator('nb-card', {hasText: "Inline form"}).screenshot({path: 'screenshots/inlineFrom.png'})
+    await pom.navigateTo.datePickerPage()
+    await pom.datepickerPage.selectCommonDatePickerFromToday(2)
+    await pom.datepickerPage.selectDatePickerWithRange(2,2)
+    await pom.navigateTo.smartTablePage()
 })
 
