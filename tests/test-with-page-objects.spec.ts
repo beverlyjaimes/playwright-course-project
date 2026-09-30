@@ -4,7 +4,7 @@ import {faker } from '@faker-js/faker';
 
 
 test.beforeEach(async ({page}) =>{
-    await page.goto('https://playground.bondaracademy.com/')
+    await page.goto('/')
 
 })
 

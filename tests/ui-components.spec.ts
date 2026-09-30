@@ -3,7 +3,7 @@ import { using } from 'rxjs'
 import { DialogComponent } from '../src/app/pages/modal-overlays/dialog/dialog.component'
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://playground.bondaracademy.com/')
+    await page.goto('/')
 })
 
 test.describe.only('From Layouts page', () => {
