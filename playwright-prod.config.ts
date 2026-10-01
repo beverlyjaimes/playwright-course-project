@@ -55,3 +55,7 @@ export default defineConfig({
 
   
 });
+
+
+//can be set per environment 
+//command npx playwright test --config=playwright-prod.config.ts
