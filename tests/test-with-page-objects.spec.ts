@@ -26,7 +26,7 @@ test('Parametrized page object methods', async ({page}) => {
     const randomEmail = faker.internet.email({provider: 'test.com'})
 
     await pom.navigateTo.formLayoutsPage()
-    await pom.formLayoutsPage.submitUsingTheGridForm('test1@test.com', 'Welcome1', 'Option 1')
+    await pom.formLayoutsPage.submitUsingTheGridForm(process.env.TEST_USER_EMAIL!, process.env.TEST_USER_PASSWORD!, 'Option 1')
 
        //screenshot 
     await page.screenshot({path: 'screenshots/formlayoutsPage.png'})
